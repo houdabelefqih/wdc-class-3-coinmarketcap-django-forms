@@ -62,8 +62,7 @@ def create(request):
     elif request.method == 'POST':
         cryptocurrency_form = CryptocurrencyForm(request.POST)
         if cryptocurrency_form.is_valid():
-            cryptocurrency = Cryptocurrency.objects.create(
-                **cryptocurrency_form.cleaned_data)
+            cryptocurrency = cryptocurrency_form.save()
             return redirect('index')
 
         return render(
