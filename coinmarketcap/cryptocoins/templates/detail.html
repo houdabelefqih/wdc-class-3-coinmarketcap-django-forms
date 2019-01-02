@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <img src="https://raw.githubusercontent.com/atomiclabs/cryptocurrency-icons/master/128/color/{{coin.symbol|lower}}.png" alt="" width="50">
+    <h1>Details of: *{{coin.name}}* <span>({{coin.symbol}})</span></h1>
+    <ul>
+      <li>Price USD: ${{coin.price_usd}}</li>
+      <li>Price BTC: {{coin.price_btc}} BTC</li>
+      <li>Perc change last 24 hours: {{coin.percent_change_24h}}%</li>
+    </ul>
+  </body>
+</html>

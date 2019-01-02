@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+
+{% block main %}
+  <form action="{% url 'cryptocurrencies-delete' currency.id %}" method='POST'>
+    {% csrf_token %}
+    <p class="lead">You are about to delete <b>"{{currency.name}}"</b>, this procedure is irreversible.</p>
+    <p class="lead">Do you want to proceed?</p>
+
+    <button type="submit" class="btn btn-primary">Confirm</button>
+    <a style="margin-right: 10px;" type="button" class="btn btn-outline-primary" href="/">Cancel</a>
+  </form>
+{% endblock %}
