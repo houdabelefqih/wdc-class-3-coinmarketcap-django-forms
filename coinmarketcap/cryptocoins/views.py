@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 
+from cryptocoins.forms import CryptocurrencyForm
 from cryptocoins.models import Cryptocurrency, Exchange
 
 
@@ -51,45 +52,22 @@ def delete(request, coin_id):
 
 
 def create(request):
-    exchanges = Exchange.objects.all()
     if request.method == 'GET':
-        return render(request, 'create_cryptocurrency.html', {'exchanges': exchanges})
-    elif request.method == 'POST':
-        fields = [
-            'name', 'slug', 'symbol', 'rank', 'price_usd', 'price_btc',
-            'volume_usd_24h', 'market_cap_usd', 'available_supply',
-            'total_supply', 'percent_change_1h', 'percent_change_24h',
-            'percent_change_7d', 'exchange'
-        ]
-        errors = {}
-        for field in fields:
-            if not request.POST.get(field):
-                errors[field] = 'This field is required.'
-
-        if errors:
-            return render(
-                request,
-                'create_cryptocurrency.html',
-                context={'exchanges': exchanges, 'errors': errors}
-            )
-
-        exchange = Exchange.objects.get(name=request.POST.get('exchange'))
-        cryptocurrency = Cryptocurrency.objects.create(
-            name=request.POST.get('name'),
-            slug=request.POST.get('slug'),
-            symbol=request.POST.get('symbol'),
-            rank=float(request.POST.get('rank')),
-            price_usd=float(request.POST.get('price_usd')),
-            price_btc=float(request.POST.get('price_btc')),
-            volume_usd_24h=float(request.POST.get('volume_usd_24h')),
-            market_cap_usd=float(request.POST.get('market_cap_usd')),
-            available_supply=float(request.POST.get('available_supply')),
-            total_supply=float(request.POST.get('total_supply')),
-            max_supply=float(request.POST.get('max_supply')),
-            percent_change_1h=float(request.POST.get('percent_change_1h')),
-            percent_change_24h=float(request.POST.get('percent_change_24h')),
-            percent_change_7d=float(request.POST.get('percent_change_7d')),
-            exchange=exchange
+        cryptocurrency_form = CryptocurrencyForm()
+        return render(
+            request,
+            'create_cryptocurrency.html',
+            context={'cryptocurrency_form': cryptocurrency_form}
         )
+    elif request.method == 'POST':
+        cryptocurrency_form = CryptocurrencyForm(request.POST)
+        if cryptocurrency_form.is_valid():
+            cryptocurrency = Cryptocurrency.objects.create(
+                **cryptocurrency_form.cleaned_data)
+            return redirect('index')
 
-        return redirect('index')
+        return render(
+            request,
+            'create_cryptocurrency.html',
+            context={'cryptocurrency_form': cryptocurrency_form}
+        )
