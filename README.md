@@ -25,4 +25,8 @@ One step forward is to use [Django ModelForms](https://docs.djangoproject.com/en
 
 As each form field is taken from the model, all the validation will be based on the type of field.
 
+## 3) Forms Validations and Widgets
+
+In this final step we'll learn how to change the default widget for certain form field, and also how to validate anything we need at field level or even after every field was correctly validated.
+
 That's all! 🎉 We just did a third iteration to the Coinmarketcap clone, adding some more advanced functionalities of the Django framework.
