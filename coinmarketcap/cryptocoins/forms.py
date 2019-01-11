@@ -30,3 +30,11 @@ class CryptocurrencyForm(forms.Form):
         label='Percent Change 1d', max_digits=5, decimal_places=2)
     exchange = forms.ModelChoiceField(
         label='Exchange', queryset=Exchange.objects.all())
+
+    CHOICES=[
+        (True, 'Yes'),
+        (False, 'No')
+    ]
+    is_active = forms.ChoiceField(
+        label="Is active?", choices=CHOICES, initial=CHOICES[0][0]
+    )
